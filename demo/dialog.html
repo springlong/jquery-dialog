@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery弹窗组件</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/demo.css">
+  <script src="jquery/jquery-1.9.1.min.js"></script>
+  <script src="../src/jquery.dialog.js"></script>
+  <link rel="stylesheet" href="../src/css/dialog.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="mt20"><button id="defDialog">原始弹窗</button></div>
+    <div class="mt20"><button id="defDialogWithNoPadding">原始弹窗，无padding、不设置最小宽度</button></div>
+    <div class="mt20"><button id="sendSuccessToTop">发送成功的提示框（置顶）</button></div>
+    <div class="mt20"><button id="sendWarningToTop">发送警告的提示框（置顶）</button></div>
+    <div class="mt20"><button id="sendMsg">发送提示（自动隐藏）</button></div>
+    <div class="mt20"><button id="sendMsgNoHide">发送提示（不隐藏）</button></div>
+    <div class="mt20"><button id="sendSuccess">发送成功（自动隐藏）</button></div>
+    <div class="mt20"><button id="sendWarning">发送警告（自动隐藏）</button></div>
+    <div class="mt20"><button id="sendError">发送错误（自动隐藏）</button></div>
+    <div class="mt20"><button id="confirm">确认框：标题+提示语+描述文本+确认+取消</button></div>
+    <div class="mt20"><button id="confirmTitleMsgCancelConfirm">确认框：标题+提示语+居中+取消+确认</button></div>
+    <div class="mt20"><button id="confirmTitleDescConfirmCancel">确认框：标题+描述文本+确认删除+取消</button></div>
+    <div class="mt20"><button id="confirmMsgConfirmCancel">确认框：提示语+居中+确认+取消</button></div>
+    <div class="mt20"><button id="confirmDescConfirmIcon">确认框：描述文本+Icon+确认</button></div>
+    <div class="mt20"><button id="confirmDescConfirmIconSuccess">确认框：描述文本+IconSuccess+确认</button></div>
+    <div class="mt20"><button id="confirmDescConfirmIconError">确认框：描述文本+IconError+确认</button></div>
+    <div class="mt20"><button id="confirmDescConfirmIconWarning">确认框：描述文本+IconWarning+确认</button></div>
+    <div class="mt20"><button id="confirmTitleMsgAutoClose">确认框：标题+提示语+居中+隐藏关闭+设置宽度，自动3s隐藏</button></div>
+    <div class="mt20"><button id="confirmWithCustom">确认框：自定义内容格式，阻止onConfrim的执行</button></div>
+    <div class="mt20"><button id="confirmCustomButton">确认框：自定义button属性</button></div>
+  </div>
+  <script>
+    // 原始弹窗
+    $('#defDialog').click(function() {
+      var content = '<div class="customClass">' + '原始弹窗-内容，需要自定义该模块的样式！' + '<div>' + '<button class="j_dialogConfirm">确认</button>' + '&nbsp;<button class="j_dialogCancel">取消</button>' + '</div>' + '</div>';
+      $.dialog({
+        id: 'customId',
+        title: '原始弹窗-标题',
+        hideHeader: false,
+        hideClose: false,
+        content: content,
+        onConfirm: function() {
+          $.sendMsg('点击确定！');
+        },
+        onCancel: function() {
+          $.sendMsg('点击取消！');
+        },
+        onClose: function() {
+          $.sendMsg('点击关闭！');
+        }
+      });
+    });
+
+    // 原始弹窗，无padding、不设置最小宽度
+    $('#defDialogWithNoPadding').click(function() {
+      var content = '<div class="customClass">' + '原始弹窗-内容，需要自定义该模块的样式！' + '<div>' + '<button class="j_dialogConfirm">确认</button>' + '&nbsp;<button class="j_dialogCancel">取消</button>' + '</div>' + '</div>';
+      $.dialog({
+        id: 'customId',
+        title: '原始弹窗-标题，无padding、无最小宽度',
+        hideHeader: false,
+        hideClose: false,
+        withNoPadding: true,
+        withNoMinWidth: true,
+        content: content,
+        onConfirm: function() {
+          $.sendMsg('点击确定！');
+        },
+        onCancel: function() {
+          $.sendMsg('点击取消！');
+        },
+        onClose: function() {
+          $.sendMsg('点击关闭！');
+        }
+      });
+    });
+
+    // 发送成功的提示框（置顶）
+    $('#sendSuccessToTop').on('click', function() {
+      $.sendSuccessToTop('发送成功的提示框', 3000, function() {
+        console.log('sendSuccessToTop closed');
+      });
+    });
+
+    // 发送警告的提示框（置顶）
+    $('#sendWarningToTop').on('click', function() {
+      $.sendWarningToTop('发送警告的提示框', 3000, function() {
+        console.log('sendWarningToTop closed');
+      });
+    });
+
+    // sendMsg sendSuccess sendError sendWarning均包含下述用法
+    // $.sendMsg('阻止弹窗自动关闭', false);
+    // $.sendMsg('设置多少毫秒后自动关闭，默认为3000毫秒', 3000);
+    // $.sendMsg('设置第二个参数，并执行关闭弹窗时的回调', 3000, function(){alert('close')});
+    // $.sendMsg('可以缺省第二个参数，直接设置回调函数', function(){alert('close')});
+    // 发送提示（自动隐藏）
+    $('#sendMsg').on('click', function() {
+      $.sendMsg('发送提示（自动隐藏）', 3000, function() {
+        console.log('sendMsg closed');
+      });
+    });
+
+    // 发送提示（不隐藏）
+    $('#sendMsgNoHide').on('click', function() {
+      $.sendMsg('发送提示（不隐藏）', false, function() {
+        console.log('sendMsg closed');
+      });
+    });
+
+    // 发送成功（自动隐藏）
+    $('#sendSuccess').on('click', function() {
+      $.sendSuccess('发送成功（自动隐藏）', 3000, function() {
+        console.log('sendSuccess closed');
+      });
+    });
+
+    // 发送警告（自动隐藏）
+    $('#sendWarning').on('click', function() {
+      $.sendWarning('发送警告（自动隐藏）', 3000, function() {
+        console.log('sendWarning closed');
+      });
+    });
+
+    // 发送错误（自动隐藏）
+    $('#sendError').on('click', function() {
+      $.sendError('发送错误（自动隐藏）', 3000, function() {
+        console.log('sendError closed');
+      });
+    });
+
+    // 确认框：标题+提示语+描述文本+确认+取消
+    $('#confirm').click(function() {
+      $.sendConfirm({
+        title: '标题+提示语+描述文本+确认+取消',
+        msg: '你确定删除改销售平台吗？',
+        desc: '确定后将不再受到商品的库存预警提示和不能下载该商品资料包',
+        button: {
+          confirm: '确认',
+          cancel: '取消'
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    // 确认框：标题+提示语+居中+取消+确认
+    $('#confirmTitleMsgCancelConfirm').click(function() {
+      $.sendConfirm({
+        withCenter: true,
+        title: '标题+提示语+居中+取消+确认',
+        msg: '确定将所有信息标记为已读么？',
+        button: {
+          confirm: '确认',
+          cancel: '取消',
+          cancelFirst: true
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    // 确认框：标题+描述文本+确认删除+取消
+    $('#confirmTitleDescConfirmCancel').click(function() {
+      $.sendConfirm({
+        title: '标题+描述文本+确认删除+取消',
+        desc: '确定删除 <span class="text-info">意大利KIS食品级环保材质可分层储物箱 白色 M</span> 商品？',
+        button: {
+          confirm: '确定删除',
+          cancel: '取消',
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    // 确认框：提示语+居中+确认+取消
+    $('#confirmMsgConfirmCancel').click(function() {
+      $.sendConfirm({
+        hideHeader: true,
+        withCenter: true,
+        msg: '确定将所有信息标记为已读么？',
+        button: {
+          confirm: '确认',
+          cancel: '取消'
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    // 确认框：描述文本+确认
+    $('#confirmDescConfirmIcon').click(function() {
+      $.sendConfirm({
+        hideHeader: true,
+        withIcon: true,
+        desc: '商品信息有变动（<span class="text-info">可能是有库存不足、价格调整或商品失效等情况发生</span>）<br>请再次确认并重新提交订单 ：',
+        button: {
+          confirm: '确定',
+          cancel: null,
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    $('#confirmDescConfirmIconSuccess').click(function() {
+      $.sendConfirm({
+        hideHeader: true,
+        withIcon: 'withIconSuccess',
+        desc: '商品信息有变动（<span class="text-info">可能是有库存不足、价格调整或商品失效等情况发生</span>）<br>请再次确认并重新提交订单 ：',
+        button: {
+          confirm: '确定',
+          cancel: null,
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    $('#confirmDescConfirmIconError').click(function() {
+      $.sendConfirm({
+        hideHeader: true,
+        withIcon: 'withIconError',
+        desc: '商品信息有变动（<span class="text-info">可能是有库存不足、价格调整或商品失效等情况发生</span>）<br>请再次确认并重新提交订单 ：',
+        button: {
+          confirm: '确定',
+          cancel: null,
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    $('#confirmDescConfirmIconWarning').click(function() {
+      $.sendConfirm({
+        hideHeader: true,
+        withIcon: 'withIconWarning',
+        desc: '商品信息有变动（<span class="text-info">可能是有库存不足、价格调整或商品失效等情况发生</span>）<br>请再次确认并重新提交订单 ：',
+        button: {
+          confirm: '确定',
+          cancel: null,
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    // 确认框：标题+提示语+居中+隐藏关闭+设置宽度，自动3s隐藏
+    $('#confirmTitleMsgAutoClose').click(function() {
+      $.sendConfirm({
+        title: '标题+提示语+居中+隐藏关闭+设置宽度，自动3s隐藏',
+        msg: '标题+提示语+居中+隐藏关闭+设置宽度，自动3s隐藏<br>按Esc或点击背景不能关闭',
+        hideClose: true,
+        withCenter: true,
+        bgHide: false,
+        escHide: false,
+        width: 460,
+        button: false,
+        autoClose: true,
+        timeout: 3000,
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    // 确认框：自定义内容格式，阻止onConfrim的执行
+    $('#confirmWithCustom').click(function() {
+      $.sendConfirm({
+        title: '自定义内容格式，阻止onConfrim的执行',
+        content: '<div id="addIpBox">' + '<div class="frm-item">' + '<div class="frm-label"><span class="requireIcon">*</span> ip地址:</div>' + '<input type="text" class="frm-input" name="ip" placeholder="请填写有效的ip地址">' + '<div class="msg-box j_msgIp hide">不是有效的ip地址</div>' + '</div>' + '<div class="frm-item">' + '<div class="frm-label"><span class="requireIcon">*</span> 说明:</div>' + '<input type="text" class="frm-input" name="desc" placeholder="最多15个汉字">' + '<div class="msg-box j_msgDesc hide">不是有效的ip地址</div>' + '</div>' + '<div class="frm-item">' + '<div class="frm-label"><span class="requireIcon">*</span> 运营商:</div>' + '<input type="text" class="frm-input" name="operator" placeholder="最多10个汉字">' + '<div class="msg-box j_msgOperator hide">不是有效的ip地址</div>' + '</div>' + '</div>',
+        button: {
+          confirm: '确认',
+          cancel: '取消'
+        },
+        width: 260,
+        onBeforeConfirm: function() {
+          // onBeforeConfirm返回false，将阻止onConfirm的执行
+          return false;
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+
+    // 确认框：自定义button属性
+    $('#confirmCustomButton').click(function() {
+      $.sendConfirm({
+        hideHeader: true,
+        hideClose: false,
+        withIcon: false,
+        withCenter: true,
+        msg: '成功加入发货清单！',
+        button: {
+          confirm: {
+            text: '立即去结算',
+            target: '_blank',
+            href: '/order/ordercheck'
+          },
+          cancel: '继续查找商品'
+        },
+        onConfirm: function() {
+          console.log('点击确认！');
+        },
+        onCancel: function() {
+          console.log('点击取消！');
+        },
+        onClose: function() {
+          console.log('点击关闭！');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

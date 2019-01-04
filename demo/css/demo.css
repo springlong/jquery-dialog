@@ -1,0 +1,92 @@
+.container {width: 600px; margin: 20px auto;}
+button { padding: 0 10px; }
+.text-info { color: #ff7300;}
+
+.mt10{
+    margin-top: 10px;
+}
+
+.mt20{
+    margin-top: 20px;
+}
+
+.hide {
+    display: none;
+}
+
+#formBox {
+    width: 550px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px auto;
+}
+
+.frm-item {
+    line-height: 32px;
+}
+
+.frm-item + .frm-item {
+    margin-top: 10px;
+}
+
+.frm-label {
+    display: inline-block;
+    width: 7em;
+    font-size: 14px;
+}
+
+.frm-input {
+    width: 120px;
+    height: 30px;
+    border: 1px solid #ddd;
+    padding: 0 10px;
+}
+
+.frm-submit {
+    display: inline-block;
+    min-width: 50px;
+    height: 32px;
+    padding: 0 10px;
+    font-size: 14px;
+    line-height: 32px;
+    text-align: center;
+    color: #fff;
+    background-color: #0D76B4;
+    text-decoration: none;
+}
+
+.frm-submit.disabled,
+.frm-submit.disabled:hover {
+    background-color: #BCB7B7;
+    cursor: not-allowed;
+}
+
+.frm-submit + .frm-reset {
+    margin-left: 10px;
+}
+
+.frm-reset {
+    display: inline-block;
+    width: 60px;
+    height: 32px;
+    font-size: 14px;
+    line-height: 32px;
+    text-align: center;
+    color: #fff;
+    background-color: #B9A5CE;
+    text-decoration: none;
+}
+
+.frm-submit:hover {
+    background-color: #0F5883;
+}
+
+i.required {
+    padding-right: 5px;
+    color: #f00;
+}
+
+#addIpBox .msg-box {
+    padding-left: 98px;
+    color: #c33;
+}
